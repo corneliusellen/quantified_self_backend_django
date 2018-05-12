@@ -24,6 +24,8 @@ def get_delete_update_food(request, pk):
 @api_view(['GET', 'POST'])
 def get_post_food(request):
     if request.method == 'GET':
-        return Response({})
+        foods = Food.objects.all()
+        serializer = FoodSerializer(foods, many=True)
+        return Response(serializer.data)
     elif request.method == 'POST':
         return Response({})
