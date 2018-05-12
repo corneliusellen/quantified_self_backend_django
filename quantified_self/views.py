@@ -29,4 +29,12 @@ def get_post_food(request):
         serializer = FoodSerializer(foods, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        return Response({})
+        data = {
+            'name': request.data.get('name'),
+            'calories': request.data.get('calories'),
+        }
+        serializer = FoodSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
