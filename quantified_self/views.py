@@ -15,7 +15,8 @@ def get_delete_update_food(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        return Response({})
+        serializer = FoodSerializer(food)
+        return Response(serializer.data)
     elif request.method == 'DELETE':
         return Response({})
     elif rquest.method == 'PUT':
