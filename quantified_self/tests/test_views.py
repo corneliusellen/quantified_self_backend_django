@@ -111,3 +111,14 @@ class UpdateFoodTest(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+class DeleteFoodTest(TestCase):
+
+    def setUp(self):
+        self.berries = Food.objects.create(
+            name='Strawberries', calories='40')
+
+    def test_delete_food(self):
+        response = client.delete(
+        reverse('get_delete_update_food', kwargs={'pk': self.berries.pk}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
