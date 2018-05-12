@@ -19,8 +19,12 @@ def get_delete_update_food(request, pk):
         return Response(serializer.data)
     elif request.method == 'DELETE':
         return Response({})
-    elif rquest.method == 'PUT':
-        return Response({})
+    elif request.method == 'PATCH':
+        serializer = FoodSerializer(food, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'POST'])
 def get_post_food(request):
