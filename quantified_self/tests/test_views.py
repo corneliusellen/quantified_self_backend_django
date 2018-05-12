@@ -9,6 +9,7 @@ import code
 client = Client()
 
 class GetAllFoodsTest(TestCase):
+
     def setUp(self):
         Food.objects.create(
             name='Graham Crackers',
@@ -25,6 +26,7 @@ class GetAllFoodsTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 class GetOneFoodTest(TestCase):
+
     def setUp(self):
         self.pudding = Food.objects.create(
             name='Pudding',
@@ -62,7 +64,11 @@ class CreateNewFoodTest(TestCase):
             data=json.dumps(self.valid_payload),
             content_type='application/json'
         )
+        food = Food.objects.get(pk=1)
+        serializer = FoodSerializer(food)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data, serializer.data)
+
 
     def test_create_food_invalid(self):
         response = client.post(
@@ -71,4 +77,37 @@ class CreateNewFoodTest(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        
+
+class UpdateFoodTest(TestCase):
+
+    def setUp(self):
+        self.almonds = Food.objects.create(
+            name='Almonds',
+            calories=500)
+        self.valid_payload = {
+            'name': 'Almonds',
+            'calories': 10
+        }
+        self.invalid_payload = {
+            'name': '',
+            'calories': 7
+        }
+
+    def test_update_food_valid(self):
+        response = client.patch(
+            reverse('get_delete_update_food', kwargs={'pk': self.almonds.pk}),
+            data=json.dumps(self.valid_payload),
+            content_type='application/json'
+        )
+        food = Food.objects.get(pk=self.almonds.pk)
+        serializer = FoodSerializer(food)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_update_food_invalid(self):
+        response = client.patch(
+            reverse('get_delete_update_food', kwargs={'pk': self.almonds.pk}),
+            data=json.dumps(self.invalid_payload),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
