@@ -14,4 +14,5 @@ class Food(models.Model):
 class Meal(models.Model):
     name = models.CharField(max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
+    foods = models.ManyToManyField(Food)
     
