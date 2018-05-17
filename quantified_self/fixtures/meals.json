@@ -1,0 +1,30 @@
+[
+  {
+    "model": "quantified_self.meal",
+    "pk": 1,
+    "fields": {
+      "name": "Breakfast"
+    }
+  },
+  {
+    "model": "quantified_self.meal",
+    "pk": 2,
+    "fields": {
+      "name": "Snacks"
+    }
+  },
+  {
+    "model": "quantified_self.meal",
+    "pk": 3,
+    "fields": {
+      "name": "Lunch"
+    }
+  },
+  {
+    "model": "quantified_self.meal",
+    "pk": 4,
+    "fields": {
+      "name": "Dinner"
+    }
+  }
+]
