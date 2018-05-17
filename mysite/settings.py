@@ -79,6 +79,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'quantified_self_python_development',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
