@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Food
 from .serializers import FoodSerializer
+from django.http import HttpResponse
+import code
 
 @api_view(['GET', 'DELETE', 'PATCH'])
 def get_delete_update_food(request, pk):
@@ -35,8 +37,8 @@ def get_post_food(request):
         return Response(serializer.data)
     elif request.method == 'POST':
         data = {
-            'name': request.data.get('name'),
-            'calories': request.data.get('calories'),
+            'name': request.data.get('food').get('name'),
+            'calories': request.data.get('food').get('calories'),
         }
         serializer = FoodSerializer(data=data)
         if serializer.is_valid():
