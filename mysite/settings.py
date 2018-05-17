@@ -79,8 +79,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'quantified_self_python_development',
-        'HOST': 'localhost',
-        'PORT': '5432'
     }
 }
 
@@ -127,3 +125,7 @@ REST_FRAMEWORK = {
 # 'DEFAULT_PERMISSION_CLASSES': [],
 # 'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
+
+# Configure Django App for Heroku.
+# import django_heroku
+# django_heroku.settings(locals())
