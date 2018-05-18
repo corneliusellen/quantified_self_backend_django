@@ -1,3 +1,5 @@
 Django==1.11.13
 djangorestframework==3.8.2
 gunicorn==19.8.1
+psycopg2==2.7.1
+--no-binary
