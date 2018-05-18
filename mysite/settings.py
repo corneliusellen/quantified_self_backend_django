@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'quantified_self',
-    'rest_framework'
+    'rest_framework',
+    'corsheaders'
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -49,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -125,7 +129,7 @@ REST_FRAMEWORK = {
 # 'DEFAULT_PERMISSION_CLASSES': [],
 # 'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
-# 
+#
 # conn=psycopg2.connect(
 #   database="quantified_self_python_development",
 #   user="postgres",
