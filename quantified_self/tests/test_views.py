@@ -3,7 +3,9 @@ from rest_framework import status
 from django.test import TestCase, Client
 from django.urls import reverse
 from ..models import Food
+from ..models import Meal
 from ..serializers import FoodSerializer
+from ..serializers import MealSerializer
 import code
 
 client = Client()
@@ -50,12 +52,16 @@ class CreateNewFoodTest(TestCase):
 
     def setUp(self):
         self.valid_payload = {
-            'name': 'Muffin',
-            'calories': 400
+            'food': {
+                'name': 'Muffin',
+                'calories': 400
+            }
         }
         self.invalid_payload = {
-            'name': '',
-            'calories': 2
+            'food': {
+                'name': '',
+                'calories': 2
+            }
         }
 
     def test_create_food_valid(self):
@@ -121,4 +127,50 @@ class DeleteFoodTest(TestCase):
     def test_delete_food(self):
         response = client.delete(
         reverse('get_delete_update_food', kwargs={'pk': self.berries.pk}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+class GetAllMealsTest(TestCase):
+
+    def setUp(self):
+        marshmellow = Food.objects.create(
+            name='Marshmellow',
+            calories=200)
+        fish = Food.objects.create(
+            name='Fish',
+            calories=20)
+        dinner = Meal.objects.create(
+            name='Dinner')
+        breakfast = Meal.objects.create(
+            name='Breakfast')
+        dinner.foods.add(marshmellow)
+        breakfast.foods.add(fish)
+
+    def test_get_all_meals(self):
+        response = client.get(reverse('get_meals'))
+        meals = Meal.objects.all()
+        serializer = MealSerializer(meals, many=True)
+        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+class GetOneMealTest(TestCase):
+
+    def setUp(self):
+        marshmellow = Food.objects.create(
+            name='Marshmellow',
+            calories=200)
+        fish = Food.objects.create(
+            name='Fish',
+            calories=20)
+        self.dinner = Meal.objects.create(
+            name='Dinner')
+        self.breakfast = Meal.objects.create(
+            name='Breakfast')
+        self.dinner.foods.add(marshmellow)
+        self.breakfast.foods.add(fish)
+
+    def test_get_one_meal(self):
+        response = client.get(reverse('get_meal_foods', kwargs={'pk': self.dinner.pk}))
+        meal = Meal.objects.get(pk=self.dinner.pk)
+        serializer = MealSerializer(meal)
+        self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
