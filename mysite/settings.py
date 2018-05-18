@@ -125,7 +125,3 @@ REST_FRAMEWORK = {
 # 'DEFAULT_PERMISSION_CLASSES': [],
 # 'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
-
-# Configure Django App for Heroku.
-import django_heroku
-django_heroku.settings(locals())
