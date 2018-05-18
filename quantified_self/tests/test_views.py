@@ -151,3 +151,26 @@ class GetAllMealsTest(TestCase):
         serializer = MealSerializer(meals, many=True)
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+class GetOneMealTest(TestCase):
+
+    def setUp(self):
+        marshmellow = Food.objects.create(
+            name='Marshmellow',
+            calories=200)
+        fish = Food.objects.create(
+            name='Fish',
+            calories=20)
+        self.dinner = Meal.objects.create(
+            name='Dinner')
+        self.breakfast = Meal.objects.create(
+            name='Breakfast')
+        self.dinner.foods.add(marshmellow)
+        self.breakfast.foods.add(fish)
+
+    def test_get_one_meal(self):
+        response = client.get(reverse('get_meal_foods', kwargs={'pk': self.dinner.pk}))
+        meal = Meal.objects.get(pk=self.dinner.pk)
+        serializer = MealSerializer(meal)
+        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
