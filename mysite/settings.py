@@ -125,3 +125,9 @@ REST_FRAMEWORK = {
 # 'DEFAULT_PERMISSION_CLASSES': [],
 # 'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
+# 
+# conn=psycopg2.connect(
+#   database="quantified_self_python_development",
+#   user="postgres",
+#   host="/tmp/"
+# )
